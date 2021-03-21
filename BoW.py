@@ -4,7 +4,7 @@ def read_txt():
     f.close()
     return text
 def read_stop():
-    s=open("stopwords.txt")
+    s=open("stopword.txt")
     stp=s.read().split()
     s.close()
     return stp
