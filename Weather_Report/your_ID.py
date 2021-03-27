@@ -151,7 +151,7 @@ date_time, names_in_region, stations = read_weather_data()
 alltemp = []
 alllat = []
 alllong = []
-alldis = []
+
 for i in stations:
     alltemp.append([stations[i]['temp'],i])
     alllat.append([stations[i]['lat'],i])
@@ -165,9 +165,9 @@ def approx_match(stations, name):
     name = ("".join(name.split())).upper()
     
     for i in stations:
-        if name in  i :
+        stationsfix = "".join(i.split())
+        if name in  stationsfix :
             allstation.append(i)
-        
     
     return allstation
 
@@ -187,6 +187,7 @@ def top_k_min_temp_stations(stations, K):
             lstmin.append(alltemp[i][1])
         i+=1
         if(i==len(alltemp)-1):
+            lstmin.append(alltemp[i][1])
             break
     return lstmin
 
@@ -198,6 +199,8 @@ def top_k_max_temp_stations(stations, K):
         if i!=0:
             if (alltemp[len(alltemp)-1-i][0] == alltemp[len(alltemp)-i][0]) :
                 K+=1
+                lstmax.remove(alltemp[len(alltemp)-i][1])
+                lstmax.append(alltemp[len(alltemp)-1-i][1])
                 
             else:
                 lstmax.append(alltemp[len(alltemp)-1-i][1])
@@ -205,6 +208,7 @@ def top_k_max_temp_stations(stations, K):
             lstmax.append(alltemp[len(alltemp)-1-i][1])
         i+=1
         if(i==len(alltemp)-1):
+            lstmax.append(alltemp[len(alltemp)-1-i][1])
             break
     return lstmax
 
@@ -220,13 +224,13 @@ def peak_stations(stations):
 
 def k_nearby_stations(stations, main_station, K):
     nearest=[]
-
+    alldis = []
     for i in stations:
         if(i != main_station.upper()):
             alldis.append([distance(stations[main_station]['lat'],stations[main_station]['long'],stations[(i)]['lat'],stations[(i)]['long']),i])
     alldis.sort()
     i=0
-    while i!=(K):
+    while i!= K :
         if i!=0:
             if (alldis[i][0] == alldis[i-1][0]) :
                 K+=1
@@ -239,6 +243,7 @@ def k_nearby_stations(stations, main_station, K):
         i+=1
 
         if(i==len(alldis)-1):
+            nearest.append(alldis[i][1])
             break
     return nearest
 
