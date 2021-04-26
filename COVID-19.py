@@ -60,11 +60,13 @@ def most_similar_province_pair(data):
     
 
 def most_similar_in_period(data, province, beg_date, end_date):
-    pass
+    norm = data['norm_data'][list(data['province_names']).index(province)][list(data['dates']).index(beg_date):list(data['dates']).index(end_date)+1]
 
+    return norm
 
 def main():
  # put your own testing codes in this function
  data = read_data('TH_20210401_20210416.csv')       
- print(most_similar_province_pair(data))
+ print(max_new_cases_date(data))
 main()
+
